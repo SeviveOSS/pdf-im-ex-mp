@@ -73,7 +73,9 @@ dependencies {
     implementation(libs.korlibs.image.core)
     implementation(libs.korlibs.image.android)
 
-    testImplementation(libs.junit)
+    testImplementation(libs.kotlin.test.core)
+    testImplementation(libs.kotlin.test.junit)
+    testImplementation(libs.kotlin.test.annotations.common)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.espresso.core)

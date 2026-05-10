@@ -1,7 +1,6 @@
 [versions]
 agp = "9.2.1"
 coreKtx = "1.10.1"
-junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
 lifecycle = "2.10.0"
@@ -13,9 +12,10 @@ filekit = "0.14.1"
 mupdf = "1.27.1a"
 korlibs-image = "6.1.0"
 
+kotlin-test = "2.2.10"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
@@ -37,6 +37,10 @@ mupdf = { module = "com.artifex.mupdf:viewer", version.ref = "mupdf" }
 korlibs-image = { module = "org.korge:korlibs-image", version.ref = "korlibs-image" }
 korlibs-image-core = { module = "org.korge:korlibs-image-core", version.ref = "korlibs-image" }
 korlibs-image-android = { module = "org.korge:korlibs-image-android", version.ref = "korlibs-image" }
+
+kotlin-test-core = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin-test" }
+kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin-test" }
+kotlin-test-annotations-common = { module = "org.jetbrains.kotlin:kotlin-test-annotations-common", version.ref = "kotlin-test" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
