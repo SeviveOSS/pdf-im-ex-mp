@@ -22,9 +22,9 @@ dependencyResolutionManagement {
         // for mupdf
         maven(url = "https://maven.ghostscript.com")
         // for skiko
-        maven(url = "https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
 }
 
 rootProject.name = "PdfImEx"
-include(":app")
+include(":composeApp", ":androidApp")

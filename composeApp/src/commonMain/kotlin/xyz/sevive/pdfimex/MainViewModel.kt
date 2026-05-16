@@ -1,0 +1,101 @@
+package xyz.sevive.pdfimex
+
+import io.github.vinceglb.filekit.PlatformFile
+import io.github.vinceglb.filekit.nameWithoutExtension
+import io.github.vinceglb.filekit.readBytes
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import xyz.sevive.pdfimex.core.ExtractStrategy
+import xyz.sevive.pdfimex.core.SimpleExtractStrategy
+import xyz.sevive.pdfimex.core.SmoothingEtaEstimator
+import xyz.sevive.pdfimex.core.extractStrategyFactory
+import xyz.sevive.pdfimex.core.log
+import xyz.sevive.pdfimex.core.openPdfDocument
+import xyz.sevive.pdfimex.core.saveBitmap32ToGallery
+import kotlin.time.Duration
+
+data class MainUiState(
+    val selectedFile: PlatformFile? = null,
+    val selectedExtractStrategy: ExtractStrategy = SimpleExtractStrategy,
+    val isLoading: Boolean = false,
+    val progress: Pair<Int, Int>? = null,
+    val eta: Duration? = null,
+)
+
+class MainViewModel {
+    companion object {
+        const val LOG_TAG = "MainVM"
+    }
+
+    private var etaEstimator = SmoothingEtaEstimator(10)
+
+    private val _uiState = MutableStateFlow(MainUiState())
+    val uiState = _uiState.asStateFlow()
+
+    fun selectFile(file: PlatformFile) {
+        _uiState.value = _uiState.value.copy(
+            selectedFile = file,
+            isLoading = false,
+            progress = null,
+        )
+    }
+
+    fun selectExtractStrategy(strategy: ExtractStrategy) {
+        _uiState.value = _uiState.value.copy(selectedExtractStrategy = strategy)
+    }
+
+    suspend fun autoSelectStrategy() {
+        val selectedFile = _uiState.value.selectedFile ?: return
+
+        _uiState.value = _uiState.value.copy(isLoading = true)
+
+        try {
+            val pdfBytes = selectedFile.readBytes()
+            val pdfDoc = openPdfDocument(pdfBytes)
+            val strategy = extractStrategyFactory(pdfDoc)
+            _uiState.value = _uiState.value.copy(selectedExtractStrategy = strategy)
+            pdfDoc.close()
+        } catch (e: Exception) {
+            log(LOG_TAG, "Error auto selecting strategy: ${e.message}")
+        } finally {
+            _uiState.value = _uiState.value.copy(isLoading = false)
+        }
+    }
+
+    suspend fun startExtract() {
+        val selectedFile = _uiState.value.selectedFile ?: return
+
+        _uiState.value = _uiState.value.copy(isLoading = true)
+        etaEstimator.start()
+
+        try {
+            val pdfBytes = selectedFile.readBytes()
+            val pdfDoc = openPdfDocument(pdfBytes)
+            val strategy = _uiState.value.selectedExtractStrategy
+            val pageCount = pdfDoc.pageCount
+
+            _uiState.value = _uiState.value.copy(progress = 0 to pageCount)
+
+            for (pageNum in 0..<pageCount) {
+                val page = pdfDoc.loadPage(pageNum)
+
+                val bitmap = strategy.extractPage(page)
+                saveBitmap32ToGallery(
+                    bitmap,
+                    filenameStem = "${selectedFile.nameWithoutExtension}-p${pageNum + 1}",
+                )
+
+                etaEstimator.recordStep()
+
+                _uiState.value = _uiState.value.copy(
+                    progress = pageNum + 1 to pageCount,
+                    eta = etaEstimator.getRemainingTime(pageCount - pageNum),
+                )
+            }
+        } catch (e: Exception) {
+            log(LOG_TAG, "Error extracting pdf: ${e.message}")
+        } finally {
+            _uiState.value = _uiState.value.copy(isLoading = false)
+        }
+    }
+}

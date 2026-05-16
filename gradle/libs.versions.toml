@@ -7,6 +7,9 @@ lifecycle = "2.10.0"
 activityCompose = "1.8.0"
 kotlin = "2.2.10"
 composeBom = "2026.02.01"
+compose-multiplatform = "1.11.0"
+compose-material3 = "1.9.0"
+kotlinx-coroutines = "1.10.2"
 
 filekit = "0.14.1"
 mupdf = "1.27.1a"
@@ -37,12 +40,29 @@ mupdf = { module = "com.artifex.mupdf:viewer", version.ref = "mupdf" }
 korlibs-image = { module = "org.korge:korlibs-image", version.ref = "korlibs-image" }
 korlibs-image-core = { module = "org.korge:korlibs-image-core", version.ref = "korlibs-image" }
 korlibs-image-android = { module = "org.korge:korlibs-image-android", version.ref = "korlibs-image" }
+korlibs-image-jvm = { module = "org.korge:korlibs-image-jvm", version.ref = "korlibs-image" }
 
 kotlin-test-core = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin-test" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin-test" }
 kotlin-test-annotations-common = { module = "org.jetbrains.kotlin:kotlin-test-annotations-common", version.ref = "kotlin-test" }
 
+# Kotlinx Coroutines
+kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
+
+# Compose Multiplatform
+compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "compose-multiplatform" }
+compose-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "compose-material3" }
+compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "compose-multiplatform" }
+compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "compose-multiplatform" }
+
+# Korlibs Image (platform-specific)
+#korlibs-image-format = { module = "org.korge:korlibs-image-format", version.ref = "korlibs-image" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
+android-kmp-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 
