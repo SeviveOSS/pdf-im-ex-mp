@@ -13,6 +13,7 @@ kotlin {
         compileSdk = 36
         minSdk = 28
         androidResources { enable = false }
+        withHostTest {}
     }
 
     jvm()
@@ -29,7 +30,6 @@ kotlin {
             implementation(libs.filekit.core)
             implementation(libs.filekit.dialogs)
             implementation(libs.filekit.dialogs.compose)
-//            implementation(libs.kotlin.test)
         }
 
         androidMain.dependencies {
