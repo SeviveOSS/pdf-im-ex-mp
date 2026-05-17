@@ -1,5 +1,6 @@
 package xyz.sevive.pdfimex.core
 
-actual fun log(tag: String, message: String) {
+actual fun log(tag: String, message: String, cause: Throwable?) {
     println("[$tag] $message")
+    cause?.printStackTrace()
 }

@@ -13,7 +13,8 @@ kotlinx-coroutines = "1.10.2"
 
 filekit = "0.14.1"
 mupdf = "1.27.1a"
-korlibs-image = "6.1.0"
+pdfbox = "3.0.7"
+korlibs = "6.1.0"
 
 kotlin-test = "2.2.10"
 
@@ -33,10 +34,12 @@ filekit-core = { module = "io.github.vinceglb:filekit-core", version.ref = "file
 filekit-dialogs = { module = "io.github.vinceglb:filekit-dialogs", version.ref = "filekit" }
 filekit-dialogs-compose = { module = "io.github.vinceglb:filekit-dialogs-compose", version.ref = "filekit" }
 mupdf = { module = "com.artifex.mupdf:viewer", version.ref = "mupdf" }
-korlibs-image = { module = "org.korge:korlibs-image", version.ref = "korlibs-image" }
-korlibs-image-core = { module = "org.korge:korlibs-image-core", version.ref = "korlibs-image" }
-korlibs-image-android = { module = "org.korge:korlibs-image-android", version.ref = "korlibs-image" }
-korlibs-image-jvm = { module = "org.korge:korlibs-image-jvm", version.ref = "korlibs-image" }
+pdfbox = { module = "org.apache.pdfbox:pdfbox", version.ref = "pdfbox" }
+korlibs-io = { module = "org.korge:korlibs-io", version.ref = "korlibs" }
+korlibs-image = { module = "org.korge:korlibs-image", version.ref = "korlibs" }
+korlibs-image-core = { module = "org.korge:korlibs-image-core", version.ref = "korlibs" }
+korlibs-image-android = { module = "org.korge:korlibs-image-android", version.ref = "korlibs" }
+korlibs-image-jvm = { module = "org.korge:korlibs-image-jvm", version.ref = "korlibs" }
 
 kotlin-test-core = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin-test" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin-test" }

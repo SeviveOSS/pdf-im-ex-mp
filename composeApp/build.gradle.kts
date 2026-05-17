@@ -25,6 +25,7 @@ kotlin {
             implementation(libs.compose.ui)
             implementation(libs.compose.foundation)
             implementation(libs.kotlinx.coroutines)
+            implementation(libs.korlibs.io)
             implementation(libs.korlibs.image)
             implementation(libs.korlibs.image.core)
             implementation(libs.filekit.core)
@@ -45,6 +46,7 @@ kotlin {
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
 
+            implementation(libs.pdfbox)
             implementation(libs.korlibs.image.jvm)
             implementation(libs.kotlinx.coroutines.swing)
         }

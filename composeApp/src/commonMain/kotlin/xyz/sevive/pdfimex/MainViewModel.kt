@@ -56,7 +56,7 @@ class MainViewModel {
             _uiState.value = _uiState.value.copy(selectedExtractStrategy = strategy)
             pdfDoc.close()
         } catch (e: Exception) {
-            log(LOG_TAG, "Error auto selecting strategy: ${e.message}")
+            log(LOG_TAG, "Error auto selecting strategy", e)
         } finally {
             _uiState.value = _uiState.value.copy(isLoading = false)
         }
@@ -93,7 +93,7 @@ class MainViewModel {
                 )
             }
         } catch (e: Exception) {
-            log(LOG_TAG, "Error extracting pdf: ${e.message}")
+            log(LOG_TAG, "Error extracting pdf", e)
         } finally {
             _uiState.value = _uiState.value.copy(isLoading = false)
         }
