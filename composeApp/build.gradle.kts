@@ -31,6 +31,7 @@ kotlin {
             implementation(libs.filekit.core)
             implementation(libs.filekit.dialogs)
             implementation(libs.filekit.dialogs.compose)
+            implementation(libs.kermit)
         }
 
         androidMain.dependencies {
@@ -66,7 +67,7 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Msi)
             packageName = "xyz.sevive.pdfimex"
-            packageVersion = "1.0.0"
+            packageVersion = "0.1.0"
         }
     }
 }

@@ -1,5 +1,6 @@
 package xyz.sevive.pdfimex
 
+import co.touchlab.kermit.Logger
 import io.github.vinceglb.filekit.PlatformFile
 import io.github.vinceglb.filekit.nameWithoutExtension
 import io.github.vinceglb.filekit.readBytes
@@ -9,7 +10,6 @@ import xyz.sevive.pdfimex.core.ExtractStrategy
 import xyz.sevive.pdfimex.core.SimpleExtractStrategy
 import xyz.sevive.pdfimex.core.SmoothingEtaEstimator
 import xyz.sevive.pdfimex.core.extractStrategyFactory
-import xyz.sevive.pdfimex.core.log
 import xyz.sevive.pdfimex.core.openPdfDocument
 import xyz.sevive.pdfimex.core.saveBitmap32ToGallery
 import kotlin.time.Duration
@@ -29,6 +29,8 @@ class MainViewModel {
     companion object {
         const val LOG_TAG = "MainVM"
     }
+
+    private val logger = Logger.withTag(LOG_TAG)
 
     private var etaEstimator = SmoothingEtaEstimator(10)
 
@@ -59,7 +61,7 @@ class MainViewModel {
             _uiState.value = _uiState.value.copy(selectedExtractStrategy = strategy)
             pdfDoc.close()
         } catch (e: Exception) {
-            log(LOG_TAG, "Error auto selecting strategy", e)
+            logger.e(e) { "Error auto selecting strategy" }
         } finally {
             _uiState.value = _uiState.value.copy(isLoading = false)
         }
@@ -101,7 +103,7 @@ class MainViewModel {
             pdfDoc.close()
             cleanupResourceAfterDocument()
         } catch (e: Exception) {
-            log(LOG_TAG, "Error extracting pdf", e)
+            logger.e(e) { "Error extracting pdf" }
         } finally {
             _uiState.value = _uiState.value.copy(isLoading = false)
         }
