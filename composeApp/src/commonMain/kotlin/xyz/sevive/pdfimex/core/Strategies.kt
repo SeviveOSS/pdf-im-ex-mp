@@ -121,7 +121,6 @@ suspend fun extractStrategyFactory(pdfDoc: PdfDocument): ExtractStrategy {
     )
 
     for (pageNum in 0..<totalPages) {
-        log("ASS", "Parsing page $pageNum")
         val page = pdfDoc.loadPage(pageNum)
 
         for ((strategy, score) in strategiesScore) {

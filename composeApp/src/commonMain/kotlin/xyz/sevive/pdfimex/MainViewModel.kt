@@ -14,6 +14,9 @@ import xyz.sevive.pdfimex.core.openPdfDocument
 import xyz.sevive.pdfimex.core.saveBitmap32ToGallery
 import kotlin.time.Duration
 
+expect fun cleanupResourceAfterPage()
+expect fun cleanupResourceAfterDocument()
+
 data class MainUiState(
     val selectedFile: PlatformFile? = null,
     val selectedExtractStrategy: ExtractStrategy = SimpleExtractStrategy,
@@ -77,6 +80,8 @@ class MainViewModel {
             _uiState.value = _uiState.value.copy(progress = 0 to pageCount)
 
             for (pageNum in 0..<pageCount) {
+                cleanupResourceAfterPage()
+
                 val page = pdfDoc.loadPage(pageNum)
 
                 val bitmap = strategy.extractPage(page)
@@ -92,6 +97,9 @@ class MainViewModel {
                     eta = etaEstimator.getRemainingTime(pageCount - pageNum),
                 )
             }
+
+            pdfDoc.close()
+            cleanupResourceAfterDocument()
         } catch (e: Exception) {
             log(LOG_TAG, "Error extracting pdf", e)
         } finally {

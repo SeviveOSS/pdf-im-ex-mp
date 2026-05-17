@@ -1,11 +1,18 @@
 package xyz.sevive.pdfimex.ui.components
 
-actual fun reportMemoryUsage(): MemoryUsageReport {
+actual fun reportMemoryUsage(): List<MemoryUsage> {
     val runtime = Runtime.getRuntime()
-    return MemoryUsageReport(
-        device = MemoryUsage(
-            usedBytes = runtime.totalMemory() - runtime.freeMemory(),
-            maxBytes = runtime.maxMemory(),
+    val maxMemory = runtime.maxMemory()
+    val totalMemory = runtime.totalMemory()
+    val freeMemory = runtime.freeMemory()
+
+    val usedMemory = totalMemory - freeMemory
+
+    return listOf(
+        MemoryUsage(
+            label = "Runtime",
+            usedBytes = usedMemory,
+            maxBytes = maxMemory,
         ),
     )
 }

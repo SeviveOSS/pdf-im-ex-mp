@@ -19,18 +19,15 @@ import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.seconds
 
 data class MemoryUsage(
+    val label: String,
     val usedBytes: Long = 0,
     val maxBytes: Long = 0,
 ) {
-    val availableBytes: Long get() = maxBytes - usedBytes
-    val ratio: Float? get() = if (maxBytes == 0L) null else usedBytes / maxBytes.toFloat()
+    val availableBytes = maxBytes - usedBytes
+    val ratio = if (maxBytes == 0L) null else usedBytes / maxBytes.toFloat()
 }
 
-data class MemoryUsageReport(
-    val device: MemoryUsage = MemoryUsage(),
-)
-
-expect fun reportMemoryUsage(): MemoryUsageReport
+expect fun reportMemoryUsage(): List<MemoryUsage>
 
 private fun formatFileSize(bytes: Long): String {
     return when {
@@ -42,10 +39,10 @@ private fun formatFileSize(bytes: Long): String {
 }
 
 @Composable
-private fun MemoryMonitorItem(usage: MemoryUsage, label: String, modifier: Modifier = Modifier) {
-    val percentageLabel = if (usage.ratio == null) "-" else "${(usage.ratio!! * 100).toInt()}%"
-    val usedLabel = formatFileSize(usage.usedBytes)
-    val maxLabel = formatFileSize(usage.maxBytes)
+private fun MemoryMonitorItem(report: MemoryUsage, modifier: Modifier = Modifier) {
+    val percentageLabel = if (report.ratio == null) "-" else "${(report.ratio * 100).toInt()}%"
+    val usedLabel = formatFileSize(report.usedBytes)
+    val maxLabel = formatFileSize(report.maxBytes)
 
     Column(
         modifier,
@@ -53,17 +50,18 @@ private fun MemoryMonitorItem(usage: MemoryUsage, label: String, modifier: Modif
     ) {
         Row {
             Text(
-                "$label · $percentageLabel ($usedLabel / $maxLabel)",
+                "${report.label} · $percentageLabel ($usedLabel / $maxLabel)",
                 style = MaterialTheme.typography.bodySmall,
             )
         }
 
-        if (usage.ratio == null) {
+        if (report.ratio == null) {
             LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
         } else {
             LinearProgressIndicator(
-                progress = { usage.ratio!! },
+                progress = { report.ratio },
                 modifier = Modifier.fillMaxWidth(),
+                gapSize = 0.dp,
             )
         }
     }
@@ -71,11 +69,11 @@ private fun MemoryMonitorItem(usage: MemoryUsage, label: String, modifier: Modif
 
 @Composable
 fun MemoryMonitor(modifier: Modifier = Modifier) {
-    var report by remember { mutableStateOf(MemoryUsageReport()) }
+    var reports by remember { mutableStateOf(emptyList<MemoryUsage>()) }
 
     LaunchedEffect(Unit) {
         while (true) {
-            report = reportMemoryUsage()
+            reports = reportMemoryUsage()
             delay(1.seconds)
         }
     }
@@ -84,10 +82,11 @@ fun MemoryMonitor(modifier: Modifier = Modifier) {
         modifier,
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
-        MemoryMonitorItem(
-            report.device,
-            "Device",
-            Modifier.fillMaxWidth(),
-        )
+        for (report in reports) {
+            MemoryMonitorItem(
+                report,
+                Modifier.fillMaxWidth(),
+            )
+        }
     }
 }
