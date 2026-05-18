@@ -5,15 +5,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import io.github.vinceglb.filekit.FileKit
 import io.github.vinceglb.filekit.dialogs.init
 import xyz.sevive.pdfimex.core.AndroidApp
-import xyz.sevive.pdfimex.ui.MainScreen
-import xyz.sevive.pdfimex.ui.theme.PdfImExTheme
+import xyz.sevive.pdfimex.ui.App
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,16 +20,7 @@ class MainActivity : ComponentActivity() {
 
         enableEdgeToEdge()
         setContent {
-            val vm = remember { MainViewModel() }
-
-            PdfImExTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MainScreen(
-                        vm = vm,
-                        modifier = Modifier.padding(innerPadding),
-                    )
-                }
-            }
+            App(Modifier.fillMaxSize())
         }
     }
 }

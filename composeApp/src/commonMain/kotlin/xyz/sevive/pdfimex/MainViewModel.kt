@@ -1,5 +1,6 @@
 package xyz.sevive.pdfimex
 
+import androidx.lifecycle.ViewModel
 import co.touchlab.kermit.Logger
 import io.github.vinceglb.filekit.PlatformFile
 import io.github.vinceglb.filekit.nameWithoutExtension
@@ -25,7 +26,7 @@ data class MainUiState(
     val eta: Duration? = null,
 )
 
-class MainViewModel {
+class MainViewModel : ViewModel() {
     companion object {
         const val LOG_TAG = "MainVM"
     }

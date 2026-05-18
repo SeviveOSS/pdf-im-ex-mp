@@ -24,6 +24,10 @@ kotlin {
             implementation(libs.compose.material3)
             implementation(libs.compose.ui)
             implementation(libs.compose.foundation)
+            implementation(libs.compose.navigation)
+            implementation(libs.lifecycle.runtime.compose)
+            implementation(libs.lifecycle.viewmodel.compose)
+
             implementation(libs.kotlinx.coroutines)
             implementation(libs.korlibs.io)
             implementation(libs.korlibs.image)
@@ -40,8 +44,6 @@ kotlin {
             implementation(libs.androidx.core.ktx)
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.compose.ui.tooling)
-            implementation(libs.androidx.lifecycle.viewmodel.ktx)
-            implementation(libs.androidx.lifecycle.viewmodel.compose)
         }
 
         jvmMain.dependencies {
