@@ -5,10 +5,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
@@ -22,8 +18,8 @@ private val LightColorScheme = lightColorScheme(
     tertiary = Pink40,
 )
 
-expect @Composable
-fun platformColorScheme(darkTheme: Boolean): androidx.compose.material3.ColorScheme?
+@Composable
+expect fun platformColorScheme(darkTheme: Boolean): androidx.compose.material3.ColorScheme?
 
 @Composable
 fun PdfImExTheme(

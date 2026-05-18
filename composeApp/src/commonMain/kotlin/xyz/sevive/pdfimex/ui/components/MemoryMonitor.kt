@@ -23,7 +23,6 @@ data class MemoryUsage(
     val usedBytes: Long = 0,
     val maxBytes: Long = 0,
 ) {
-    val availableBytes = maxBytes - usedBytes
     val ratio = if (maxBytes == 0L) null else usedBytes / maxBytes.toFloat()
 }
 

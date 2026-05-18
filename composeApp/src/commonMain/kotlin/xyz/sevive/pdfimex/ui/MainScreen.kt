@@ -18,8 +18,8 @@ import xyz.sevive.pdfimex.MainViewModel
 import xyz.sevive.pdfimex.ui.components.ExtractStrategySelector
 import xyz.sevive.pdfimex.ui.components.MemoryMonitor
 import kotlin.time.Duration
-import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.Dispatchers
 
 internal fun Duration.formatETA(): String {
     return toComponents { hours, minutes, seconds, _ ->
@@ -61,7 +61,7 @@ fun MainScreen(
 ) {
     val coroutineScope = rememberCoroutineScope()
 
-    val uiState = vm.uiState.collectAsStateWithLifecycle().value
+    val uiState by vm.uiState.collectAsStateWithLifecycle()
     val isLoading = uiState.isLoading
     val selectedFile = uiState.selectedFile
 
@@ -90,14 +90,14 @@ fun MainScreen(
         }
 
         Button(
-            onClick = { coroutineScope.launch { vm.autoSelectStrategy() } },
+            onClick = { coroutineScope.launch(Dispatchers.IO) { vm.autoSelectStrategy() } },
             enabled = !isLoading,
         ) {
             Text("Wow auto select")
         }
 
         Button(
-            onClick = { coroutineScope.launch { vm.startExtract() } },
+            onClick = { coroutineScope.launch(Dispatchers.IO) { vm.startExtract() } },
             enabled = !isLoading,
         ) {
             Text("Wow extract")
