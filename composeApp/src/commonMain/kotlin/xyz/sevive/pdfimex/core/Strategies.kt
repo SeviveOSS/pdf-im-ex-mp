@@ -1,7 +1,6 @@
 package xyz.sevive.pdfimex.core
 
 import korlibs.image.bitmap.Bitmap32
-import kotlin.math.max
 
 class ExtractStrategyException(
     message: String?,
@@ -42,8 +41,10 @@ object SlicedExtractStrategy : ExtractStrategy {
         val yCenters = mutableListOf<Float>()
 
         images.forEach {
-            val xCenter = (it.boundingBox.x1 - it.boundingBox.x0) / 2
-            val yCenter = (it.boundingBox.y1 - it.boundingBox.y0) / 2
+            val width = it.boundingBox.x1 - it.boundingBox.x0
+            val height = it.boundingBox.y1 - it.boundingBox.y0
+            val xCenter = it.boundingBox.x0 + width / 2
+            val yCenter = it.boundingBox.y0 + height / 2
             xCenters.add(xCenter)
             yCenters.add(yCenter)
         }
@@ -93,7 +94,7 @@ object SlicedExtractStrategy : ExtractStrategy {
             sortedImages.maxOf { it.height } to sortedImages.sumOf { it.width }
         }
 
-        val canvas = Bitmap32(width = max(width, 1), height = max(height, 1))
+        val canvas = Bitmap32(width = width, height = height)
 
         var pasteOffset = 0
         for (image in sortedImages) {
