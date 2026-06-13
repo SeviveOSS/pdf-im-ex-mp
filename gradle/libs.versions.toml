@@ -17,6 +17,7 @@ mupdf = "1.27.1a"
 pdfbox = "3.0.7"
 korlibs = "6.1.0"
 kermit = "2.1.0"
+licensee = "1.14.1"
 
 kotlin-test = "2.2.10"
 
@@ -65,3 +66,4 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
 android-kmp-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
+licensee = { id = "app.cash.licensee", version.ref = "licensee" }
