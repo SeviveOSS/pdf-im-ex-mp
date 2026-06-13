@@ -5,6 +5,42 @@ plugins {
     alias(libs.plugins.android.kmp.library)
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.licensee)
+}
+
+licensee {
+    // a bunch of AGPL compatible licenses
+    // commented out entries are used to disable the licensee "unused" warnings
+//    allow("AGPL-3.0-only")
+//    allow("AGPL-3.0-or-later")
+//    allow("GPL-3.0-only")
+//    allow("GPL-3.0-or-later")
+//    allow("LGPL-2.1-only")
+//    allow("LGPL-3.0-only")
+//    allow("MPL-2.0")
+    allow("Apache-2.0")
+//    allow("MIT")
+//    allow("BSD-2-Clause")
+//    allow("BSD-3-Clause")
+//    allow("ISC")
+//    allow("X11")
+//    allow("Unlicense")
+//    allow("CC0-1.0")
+    allowUrl("https://github.com/hypfvieh/dbus-java/blob/master/LICENSE") {
+        because("MIT")
+    }
+    allowUrl("https://github.com/vinceglb/FileKit/blob/main/LICENSE") {
+        because("MIT")
+    }
+    allowUrl("https://raw.githubusercontent.com/korlibs/korge/refs/heads/main/LICENSE") {
+        because("Each library has its own licenses typically MIT or Public Domain, dual licensed with Apache 2.0.")
+    }
+    allowUrl("https://asm.ow2.io/license.html") {
+        because("ASM is released under the following 3-Clause BSD License")
+    }
+    allowUrl("https://opensource.org/license/mit") {
+        because("Obviously MIT")
+    }
 }
 
 kotlin {
@@ -73,4 +109,3 @@ compose.desktop {
         }
     }
 }
-

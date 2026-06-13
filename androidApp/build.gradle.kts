@@ -1,6 +1,20 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.licensee)
+}
+
+licensee {
+    allow("Apache-2.0")
+    allowUrl("https://www.gnu.org/licenses/agpl-3.0.html") {
+        because("Obviously AGPL-3.0")
+    }
+    allowUrl("https://github.com/vinceglb/FileKit/blob/main/LICENSE") {
+        because("MIT")
+    }
+    allowUrl("https://raw.githubusercontent.com/korlibs/korge/refs/heads/main/LICENSE") {
+        because("Each library has its own licenses typically MIT or Public Domain, dual licensed with Apache 2.0.")
+    }
 }
 
 android {
