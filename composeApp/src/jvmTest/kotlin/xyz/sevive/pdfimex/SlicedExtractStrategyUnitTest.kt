@@ -15,7 +15,6 @@ import kotlin.test.assertTrue
 class SlicedExtractStrategyUnitTest {
     @Test
     fun testVertical() {
-        // TODO: android tests
         val pdfFile = TestUtils.getResourceFile("vertical.pdf")
 
         val singleImageWidth = 794

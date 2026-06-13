@@ -43,6 +43,10 @@ licensee {
     }
 }
 
+tasks.withType<Test> {
+    failOnNoDiscoveredTests = false
+}
+
 kotlin {
     android {
         namespace = "xyz.sevive.pdfimex.shared"
