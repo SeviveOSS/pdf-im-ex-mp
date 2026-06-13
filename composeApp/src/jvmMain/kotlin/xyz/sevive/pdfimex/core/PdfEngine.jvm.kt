@@ -23,9 +23,11 @@ internal class NoImageResourceCache : DefaultResourceCache() {
     }
 }
 
-actual fun openPdfDocument(bytes: ByteArray): PdfDocument {
-    val doc = Loader.loadPDF(bytes)
-    doc.resourceCache = NoImageResourceCache()
+class PdfBoxEngine : PdfEngine {
+    override fun openDocument(bytes: ByteArray): PdfDocument {
+        val doc = Loader.loadPDF(bytes)
+        doc.resourceCache = NoImageResourceCache()
 
-    return PdfBoxPdfDocument(doc)
+        return PdfBoxPdfDocument(doc)
+    }
 }

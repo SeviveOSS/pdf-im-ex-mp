@@ -8,15 +8,17 @@ import io.github.vinceglb.filekit.write
 import korlibs.image.bitmap.Bitmap32
 import korlibs.image.format.PNG
 
-actual suspend fun saveBitmap32ToGallery(
-    bitmap: Bitmap32,
-    filenameStem: String,
-    dirName: String,
-) {
-    val dir = FileKit.picturesDir / dirName
-    dir.createDirectories()
+class FileKitPdfSaver : PdfSaver {
+    override suspend fun save(
+        bitmap: Bitmap32,
+        filenameStem: String,
+        dirName: String,
+    ) {
+        val dir = FileKit.picturesDir / dirName
+        dir.createDirectories()
 
-    val outputFile = dir / "$filenameStem.png"
+        val outputFile = dir / "$filenameStem.png"
 
-    outputFile.write(PNG.encode(bitmap))
+        outputFile.write(PNG.encode(bitmap))
+    }
 }
