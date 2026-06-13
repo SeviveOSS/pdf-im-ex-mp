@@ -8,15 +8,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import kotlin.time.Duration
 
-internal fun Duration.formatETA(): String {
-    return toComponents { hours, minutes, seconds, _ ->
+internal fun Duration.formatETA(): String =
+    toComponents { hours, minutes, seconds, _ ->
         if (hours > 0) {
             "${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}"
         } else {
             "${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}"
         }
     }
-}
 
 @Composable
 fun ExportProgress(

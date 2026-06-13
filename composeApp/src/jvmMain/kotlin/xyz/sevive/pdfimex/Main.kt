@@ -9,16 +9,17 @@ import androidx.compose.ui.window.rememberWindowState
 import io.github.vinceglb.filekit.FileKit
 import xyz.sevive.pdfimex.ui.App
 
-fun main() = application {
-    FileKit.init(appId = "xyz.sevive.pdfimex")
+fun main() =
+    application {
+        FileKit.init(appId = "xyz.sevive.pdfimex")
 
-    val windowState = rememberWindowState(width = 800.dp, height = 600.dp)
+        val windowState = rememberWindowState(width = 800.dp, height = 600.dp)
 
-    Window(
-        onCloseRequest = ::exitApplication,
-        title = "PdfImEx",
-        state = windowState,
-    ) {
-        App(Modifier.fillMaxSize())
+        Window(
+            onCloseRequest = ::exitApplication,
+            title = "PdfImEx",
+            state = windowState,
+        ) {
+            App(Modifier.fillMaxSize())
+        }
     }
-}

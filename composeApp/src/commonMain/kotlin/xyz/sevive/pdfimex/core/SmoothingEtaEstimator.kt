@@ -5,7 +5,9 @@ import kotlin.time.Duration
 import kotlin.time.TimeMark
 import kotlin.time.TimeSource
 
-class SmoothingEtaEstimator(private val windowSize: Int = 20) {
+class SmoothingEtaEstimator(
+    private val windowSize: Int = 20,
+) {
     private val durations = ArrayDeque<Duration>(windowSize)
     private var lastMark: TimeMark? = null
 

@@ -28,17 +28,19 @@ data class MemoryUsage(
 
 expect fun reportMemoryUsage(): List<MemoryUsage>
 
-private fun formatFileSize(bytes: Long): String {
-    return when {
+private fun formatFileSize(bytes: Long): String =
+    when {
         bytes < 1024 -> "$bytes B"
         bytes < 1024 * 1024 -> "${bytes / 1024} KB"
         bytes < 1024 * 1024 * 1024 -> "${bytes / (1024 * 1024)} MB"
         else -> "${"%.1f".format(bytes.toDouble() / (1024 * 1024 * 1024))} GB"
     }
-}
 
 @Composable
-private fun MemoryMonitorItem(report: MemoryUsage, modifier: Modifier = Modifier) {
+private fun MemoryMonitorItem(
+    report: MemoryUsage,
+    modifier: Modifier = Modifier,
+) {
     val percentageLabel = if (report.ratio == null) "-" else "${(report.ratio * 100).toInt()}%"
     val usedLabel = formatFileSize(report.usedBytes)
     val maxLabel = formatFileSize(report.maxBytes)

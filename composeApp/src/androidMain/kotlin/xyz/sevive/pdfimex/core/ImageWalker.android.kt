@@ -14,7 +14,11 @@ internal class ImageStructuredTextWalker(
 ) : StructuredTextWalker {
     private val logger = Logger.withTag("MupdfWalker")
 
-    override fun onImageBlock(bbox: Rect?, transform: Matrix?, image: Image?) {
+    override fun onImageBlock(
+        bbox: Rect?,
+        transform: Matrix?,
+        image: Image?,
+    ) {
         if (image == null) {
             logger.w { "onImageBlock but image is null" }
             return
@@ -27,17 +31,43 @@ internal class ImageStructuredTextWalker(
     }
 
     override fun beginTextBlock(p0: Rect?) {}
+
     override fun endTextBlock() {}
-    override fun beginLine(p0: Rect?, p1: Int, p2: Point?) {}
+
+    override fun beginLine(
+        p0: Rect?,
+        p1: Int,
+        p2: Point?,
+    ) {}
+
     override fun endLine() {}
-    override fun onChar(p0: Int, p1: Point?, p2: Font?, p3: Float, p4: Quad?, p5: Int, p6: Int) {}
-    override fun beginStruct(p0: String?, p1: String?, p2: Int) {}
+
+    override fun onChar(
+        p0: Int,
+        p1: Point?,
+        p2: Font?,
+        p3: Float,
+        p4: Quad?,
+        p5: Int,
+        p6: Int,
+    ) {}
+
+    override fun beginStruct(
+        p0: String?,
+        p1: String?,
+        p2: Int,
+    ) {}
+
     override fun endStruct() {}
-    override fun onVector(p0: Rect?, p1: StructuredTextWalker.VectorInfo?, p2: Int) {}
+
+    override fun onVector(
+        p0: Rect?,
+        p1: StructuredTextWalker.VectorInfo?,
+        p2: Int,
+    ) {}
 }
 
-internal fun Rect.toPdfRect() =
-    PdfRect(x0 = x0, y0 = y0, x1 = x1, y1 = y1)
+internal fun Rect.toPdfRect() = PdfRect(x0 = x0, y0 = y0, x1 = x1, y1 = y1)
 
 internal fun pageToImages(page: com.artifex.mupdf.fitz.Page): List<PdfImage> {
     val images = mutableListOf<PdfImage>()

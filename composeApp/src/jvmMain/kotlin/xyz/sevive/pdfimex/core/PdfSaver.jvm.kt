@@ -16,7 +16,7 @@ actual suspend fun saveBitmap32ToGallery(
     val dir = FileKit.picturesDir / dirName
     dir.createDirectories()
 
-    val outputFile = dir / "${filenameStem}.png"
+    val outputFile = dir / "$filenameStem.png"
 
     outputFile.write(PNG.encode(bitmap))
 }

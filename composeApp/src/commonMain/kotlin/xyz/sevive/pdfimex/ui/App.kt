@@ -26,8 +26,11 @@ import androidx.navigation.compose.rememberNavController
 import xyz.sevive.pdfimex.MainViewModel
 import xyz.sevive.pdfimex.ui.theme.PdfImExTheme
 
-enum class AppNavScreen(val title: String) {
-    Home(title = "Home"), Placeholder(title = "Placeholder"),
+enum class AppNavScreen(
+    val title: String,
+) {
+    Home(title = "Home"),
+    Placeholder(title = "Placeholder"),
 }
 
 @Composable
@@ -81,9 +84,10 @@ fun AppNavigationBar(
 fun App(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
-    val currentScreen = remember(backStackEntry?.destination?.route) {
-        AppNavScreen.valueOf(backStackEntry?.destination?.route ?: AppNavScreen.Home.name)
-    }
+    val currentScreen =
+        remember(backStackEntry?.destination?.route) {
+            AppNavScreen.valueOf(backStackEntry?.destination?.route ?: AppNavScreen.Home.name)
+        }
 
     PdfImExTheme {
         Scaffold(
@@ -98,8 +102,11 @@ fun App(modifier: Modifier = Modifier) {
         ) { innerPadding ->
             AppNavHost(
                 navController = navController,
-                modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())
-                    .padding(innerPadding),
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                        .padding(innerPadding),
             )
         }
     }
