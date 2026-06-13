@@ -89,8 +89,6 @@ kotlin {
             implementation(libs.androidx.core.ktx)
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.compose.ui.tooling)
-            implementation(libs.androidx.work.runtime)
-            implementation(libs.androidx.work.runtime.ktx)
             implementation(libs.koin.android)
         }
 
