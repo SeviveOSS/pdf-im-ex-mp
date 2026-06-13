@@ -77,11 +77,11 @@ kotlin {
             implementation(libs.filekit.dialogs)
             implementation(libs.filekit.dialogs.compose)
             implementation(libs.kermit)
-            implementation(project.dependencies.platform(libs.koin.bom))
-            implementation(libs.koin.core)
-            implementation(libs.koin.annotations)
-            implementation(libs.koin.compose)
-            implementation(libs.koin.compose.viewmodel)
+            api(project.dependencies.platform(libs.koin.bom))
+            api(libs.koin.core)
+            api(libs.koin.annotations)
+            api(libs.koin.compose)
+            api(libs.koin.compose.viewmodel)
         }
 
         androidMain.dependencies {
