@@ -40,7 +40,11 @@ class SlicedExtractStrategyUnitTest {
 
             val outputImage = strategy.extractPage(page)
             val expectedImage =
-                TestUtils.getResourceFile("vertical.png").readBytes().openAsync().readBitmap()
+                TestUtils
+                    .getResourceFile("vertical.png")
+                    .readBytes()
+                    .openAsync()
+                    .readBitmap()
                     .toBMP32()
 
             assertEquals(expectedImage.size, outputImage.size)
@@ -49,10 +53,10 @@ class SlicedExtractStrategyUnitTest {
             val tolerance = 3
             expectedImage.zip(outputImage).forEach { (expectedPixel, actualPixel) ->
                 assertTrue {
-                    abs(expectedPixel.r - actualPixel.r) <= tolerance
-                            && abs(expectedPixel.g - actualPixel.g) <= tolerance
-                            && abs(expectedPixel.b - actualPixel.b) <= tolerance
-                            && abs(expectedPixel.a - actualPixel.a) <= tolerance
+                    abs(expectedPixel.r - actualPixel.r) <= tolerance &&
+                        abs(expectedPixel.g - actualPixel.g) <= tolerance &&
+                        abs(expectedPixel.b - actualPixel.b) <= tolerance &&
+                        abs(expectedPixel.a - actualPixel.a) <= tolerance
                 }
             }
         }

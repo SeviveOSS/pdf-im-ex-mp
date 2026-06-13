@@ -10,7 +10,10 @@ import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject
  * 禁用图像缓存，优化内存占用量
  */
 internal class NoImageResourceCache : DefaultResourceCache() {
-    override fun put(indirect: COSObject?, xobject: PDXObject?) {
+    override fun put(
+        indirect: COSObject?,
+        xobject: PDXObject?,
+    ) {
         if (xobject is PDImageXObject) {
             // 不缓存图像
             return

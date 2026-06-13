@@ -9,20 +9,21 @@ class ExtractStrategyException(
 
 interface ExtractStrategy {
     fun getName(): String
+
     suspend fun isPreferred(page: PdfPage): Boolean
+
     suspend fun extractPage(page: PdfPage): Bitmap32
 }
 
 object SimpleExtractStrategy : ExtractStrategy {
     override fun getName(): String = "simple"
 
-    override suspend fun isPreferred(page: PdfPage): Boolean {
-        return page.images.size == 1
-    }
+    override suspend fun isPreferred(page: PdfPage): Boolean = page.images.size == 1
 
     override suspend fun extractPage(page: PdfPage): Bitmap32 {
-        val image = page.images.maxByOrNull { it.width * it.height }
-            ?: throw ExtractStrategyException("No images on page.")
+        val image =
+            page.images.maxByOrNull { it.width * it.height }
+                ?: throw ExtractStrategyException("No images on page.")
 
         return image.toBitmap32()
     }
@@ -61,9 +62,10 @@ object SlicedExtractStrategy : ExtractStrategy {
     }
 
     override suspend fun isPreferred(page: PdfPage): Boolean {
-        fun <T, R> isListEqual(list: List<T>, selector: (T) -> R): Boolean {
-            return list.map { selector(it) }.toSet().size == 1
-        }
+        fun <T, R> isListEqual(
+            list: List<T>,
+            selector: (T) -> R,
+        ): Boolean = list.map { selector(it) }.toSet().size == 1
 
         val images = page.images
         if (images.size < 2) return false
@@ -81,18 +83,21 @@ object SlicedExtractStrategy : ExtractStrategy {
         val rawImages = page.images
         if (rawImages.isEmpty()) throw ExtractStrategyException("No images on page.")
 
-        val direction = detectSliceDirection(rawImages)
-            ?: throw ExtractStrategyException("Cannot confirm slice direction.")
+        val direction =
+            detectSliceDirection(rawImages)
+                ?: throw ExtractStrategyException("Cannot confirm slice direction.")
 
-        val sortedImages = rawImages.sortedBy {
-            if (direction == SliceDirection.VERTICAL) it.boundingBox.y0 else it.boundingBox.x0
-        }
+        val sortedImages =
+            rawImages.sortedBy {
+                if (direction == SliceDirection.VERTICAL) it.boundingBox.y0 else it.boundingBox.x0
+            }
 
-        val (width, height) = if (direction == SliceDirection.VERTICAL) {
-            sortedImages.maxOf { it.width } to sortedImages.sumOf { it.height }
-        } else {
-            sortedImages.maxOf { it.height } to sortedImages.sumOf { it.width }
-        }
+        val (width, height) =
+            if (direction == SliceDirection.VERTICAL) {
+                sortedImages.maxOf { it.width } to sortedImages.sumOf { it.height }
+            } else {
+                sortedImages.maxOf { it.height } to sortedImages.sumOf { it.width }
+            }
 
         val canvas = Bitmap32(width = width, height = height)
 
@@ -116,10 +121,11 @@ object SlicedExtractStrategy : ExtractStrategy {
 suspend fun extractStrategyFactory(pdfDoc: PdfDocument): ExtractStrategy {
     val totalPages = pdfDoc.pageCount
 
-    val strategiesScore = mutableMapOf(
-        SimpleExtractStrategy to 0,
-        SlicedExtractStrategy to 0,
-    )
+    val strategiesScore =
+        mutableMapOf(
+            SimpleExtractStrategy to 0,
+            SlicedExtractStrategy to 0,
+        )
 
     for (pageNum in 0..<totalPages) {
         val page = pdfDoc.loadPage(pageNum)

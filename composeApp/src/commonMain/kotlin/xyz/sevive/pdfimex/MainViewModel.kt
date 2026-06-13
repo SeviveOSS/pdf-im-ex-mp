@@ -16,6 +16,7 @@ import xyz.sevive.pdfimex.core.saveBitmap32ToGallery
 import kotlin.time.Duration
 
 expect fun cleanupResourceAfterPage()
+
 expect fun cleanupResourceAfterDocument()
 
 data class MainUiState(
@@ -39,11 +40,12 @@ class MainViewModel : ViewModel() {
     val uiState = _uiState.asStateFlow()
 
     fun selectFile(file: PlatformFile) {
-        _uiState.value = _uiState.value.copy(
-            selectedFile = file,
-            isLoading = false,
-            progress = null,
-        )
+        _uiState.value =
+            _uiState.value.copy(
+                selectedFile = file,
+                isLoading = false,
+                progress = null,
+            )
     }
 
     fun selectExtractStrategy(strategy: ExtractStrategy) {
@@ -95,10 +97,11 @@ class MainViewModel : ViewModel() {
 
                 etaEstimator.recordStep()
 
-                _uiState.value = _uiState.value.copy(
-                    progress = pageNum + 1 to pageCount,
-                    eta = etaEstimator.getRemainingTime(pageCount - pageNum),
-                )
+                _uiState.value =
+                    _uiState.value.copy(
+                        progress = pageNum + 1 to pageCount,
+                        eta = etaEstimator.getRemainingTime(pageCount - pageNum),
+                    )
             }
 
             pdfDoc.close()

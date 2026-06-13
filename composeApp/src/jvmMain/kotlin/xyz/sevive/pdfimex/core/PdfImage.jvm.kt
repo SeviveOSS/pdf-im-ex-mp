@@ -4,7 +4,6 @@ import korlibs.image.awt.toBMP32
 import korlibs.image.bitmap.Bitmap32
 import org.apache.pdfbox.pdmodel.graphics.image.PDImage
 
-
 internal class PdfBoxPdfImage(
     private val pdImage: PDImage,
     override val boundingBox: PdfRect,
@@ -14,7 +13,5 @@ internal class PdfBoxPdfImage(
     override val height: Int
         get() = pdImage.height
 
-    override suspend fun toBitmap32(): Bitmap32 {
-        return pdImage.image.toBMP32()
-    }
+    override suspend fun toBitmap32(): Bitmap32 = pdImage.image.toBMP32()
 }

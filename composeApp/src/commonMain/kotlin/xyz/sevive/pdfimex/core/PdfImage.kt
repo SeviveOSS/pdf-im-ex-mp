@@ -6,5 +6,6 @@ interface PdfImage {
     val width: Int
     val height: Int
     val boundingBox: PdfRect
+
     suspend fun toBitmap32(): Bitmap32
 }

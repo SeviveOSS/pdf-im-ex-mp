@@ -13,5 +13,11 @@ internal class MuPdfImage(
     override val height: Int get() = image.height
 
     override suspend fun toBitmap32(): Bitmap32 =
-        image.toPixmap().asPNG().asByteArray().openAsync().readBitmap().toBMP32()
+        image
+            .toPixmap()
+            .asPNG()
+            .asByteArray()
+            .openAsync()
+            .readBitmap()
+            .toBMP32()
 }

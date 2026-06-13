@@ -5,4 +5,9 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform) apply false
     alias(libs.plugins.compose.multiplatform) apply false
     alias(libs.plugins.android.kmp.library) apply false
+    id("org.jmailen.kotlinter") version "5.5.0" apply false
+}
+
+subprojects {
+    apply(plugin = "org.jmailen.kotlinter")
 }

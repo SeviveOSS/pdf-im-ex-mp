@@ -9,8 +9,6 @@ class TestUtils {
     companion object {
         val resourceDirectory = FileKit.projectDir / "src/commonTest/resources"
 
-        fun getResourceFile(filename: String): PlatformFile {
-            return PlatformFile(resourceDirectory, filename)
-        }
+        fun getResourceFile(filename: String): PlatformFile = PlatformFile(resourceDirectory, filename)
     }
 }

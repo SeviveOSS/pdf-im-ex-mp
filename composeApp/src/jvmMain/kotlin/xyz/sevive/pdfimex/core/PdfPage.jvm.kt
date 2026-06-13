@@ -10,8 +10,9 @@ import java.awt.geom.Rectangle2D
 import kotlin.math.max
 import kotlin.math.min
 
-
-internal class ImageExtractor(page: PDPage) : PDFGraphicsStreamEngine(page) {
+internal class ImageExtractor(
+    page: PDPage,
+) : PDFGraphicsStreamEngine(page) {
     data class ImageResult(
         val pdImage: PDImage,
         val boundingBox: PdfRect,
@@ -60,32 +61,64 @@ internal class ImageExtractor(page: PDPage) : PDFGraphicsStreamEngine(page) {
         images.add(
             ImageResult(
                 pdImage = pdImage,
-                boundingBox = PdfRect(
-                    x0 = rect.x.toFloat(),
-                    y0 = rect.y.toFloat(),
-                    x1 = (rect.x + rect.width).toFloat(),
-                    y1 = (rect.y + rect.height).toFloat(),
-                ),
+                boundingBox =
+                    PdfRect(
+                        x0 = rect.x.toFloat(),
+                        y0 = rect.y.toFloat(),
+                        x1 = (rect.x + rect.width).toFloat(),
+                        y1 = (rect.y + rect.height).toFloat(),
+                    ),
             ),
         )
     }
 
     // Required overrides (no-op implementations)
-    override fun appendRectangle(p0: Point2D, p1: Point2D, p2: Point2D, p3: Point2D) {}
+    override fun appendRectangle(
+        p0: Point2D,
+        p1: Point2D,
+        p2: Point2D,
+        p3: Point2D,
+    ) {}
+
     override fun clip(windingRule: Int) {}
-    override fun moveTo(x: Float, y: Float) {}
-    override fun lineTo(x: Float, y: Float) {}
-    override fun curveTo(x1: Float, y1: Float, x2: Float, y2: Float, x3: Float, y3: Float) {}
+
+    override fun moveTo(
+        x: Float,
+        y: Float,
+    ) {}
+
+    override fun lineTo(
+        x: Float,
+        y: Float,
+    ) {}
+
+    override fun curveTo(
+        x1: Float,
+        y1: Float,
+        x2: Float,
+        y2: Float,
+        x3: Float,
+        y3: Float,
+    ) {}
+
     override fun getCurrentPoint(): Point2D? = null
+
     override fun closePath() {}
+
     override fun endPath() {}
+
     override fun strokePath() {}
+
     override fun fillPath(windingRule: Int) {}
+
     override fun fillAndStrokePath(windingRule: Int) {}
+
     override fun shadingFill(shadingName: COSName) {}
 }
 
-internal class PdfBoxPdfPage(private val page: PDPage) : PdfPage {
+internal class PdfBoxPdfPage(
+    private val page: PDPage,
+) : PdfPage {
     override val images: List<PdfImage>
         get() {
             val extractor = ImageExtractor(page)
