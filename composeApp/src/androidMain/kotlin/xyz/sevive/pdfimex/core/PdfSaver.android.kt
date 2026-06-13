@@ -2,10 +2,12 @@ package xyz.sevive.pdfimex.core
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.sqlite.SQLiteConstraintException
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import co.touchlab.kermit.Logger
 import korlibs.image.bitmap.Bitmap32
 import korlibs.image.format.toAndroidBitmap
 
@@ -47,7 +49,19 @@ class MediaStorePdfSaver(
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 contentValues.clear()
                 contentValues.put(MediaStore.MediaColumns.IS_PENDING, 0)
-                resolver.update(it, contentValues, null, null)
+                try {
+                    resolver.update(it, contentValues, null, null)
+                } catch (e: SQLiteConstraintException) {
+                    // If the user manually deleted the file, the android media store might not update
+                    // unless the device restarts. If that's the case, just FUCK GOOGLE for these pieces
+                    // of totally messy shit like WHY THE FUCK STORING AN IMAGE SO FUCKING COMPLICATED?????
+                    // TODO: OK calm down maybe we should ask system to update this file before saving
+                    // TODO: https://stackoverflow.com/questions/71000184/code-2067-sqlite-constraint-unique-when-working-with-android-mediastorage
+                    // TODO: possible solution above
+                    val possiblyDbOutdated = e.message?.contains("SQLITE_CONSTRAINT_UNIQUE") ?: throw e
+                    if (!possiblyDbOutdated) throw e
+                    Logger.withTag("Application").v(e) { "Maybe fuck Google for this" }
+                }
             }
         }
     }
