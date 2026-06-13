@@ -7,10 +7,13 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import io.github.vinceglb.filekit.FileKit
+import xyz.sevive.pdfimex.core.di.initKoin
 import xyz.sevive.pdfimex.ui.App
 
 fun main() =
     application {
+        initKoin()
+
         FileKit.init(appId = "xyz.sevive.pdfimex")
 
         val windowState = rememberWindowState(width = 800.dp, height = 600.dp)

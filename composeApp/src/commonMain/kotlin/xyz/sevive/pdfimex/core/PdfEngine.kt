@@ -1,3 +1,5 @@
 package xyz.sevive.pdfimex.core
 
-expect fun openPdfDocument(bytes: ByteArray): PdfDocument
+interface PdfEngine {
+    fun openDocument(bytes: ByteArray): PdfDocument
+}

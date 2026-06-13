@@ -1,9 +1,13 @@
 package xyz.sevive.pdfimex
 
-actual fun cleanupResourceAfterPage() {
-    System.gc()
-}
+import xyz.sevive.pdfimex.core.PdfCleanupProvider
 
-actual fun cleanupResourceAfterDocument() {
-    System.gc()
+class JvmPdfCleanupProvider : PdfCleanupProvider {
+    override fun afterPage() {
+        System.gc()
+    }
+
+    override fun afterDocument() {
+        System.gc()
+    }
 }

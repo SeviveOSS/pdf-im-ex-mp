@@ -4,9 +4,9 @@ import io.github.vinceglb.filekit.readBytes
 import korlibs.image.format.readBitmap
 import korlibs.io.stream.openAsync
 import kotlinx.coroutines.runBlocking
+import xyz.sevive.pdfimex.core.PdfBoxEngine
 import xyz.sevive.pdfimex.core.SlicedExtractStrategy
 import xyz.sevive.pdfimex.core.extractStrategyFactory
-import xyz.sevive.pdfimex.core.openPdfDocument
 import kotlin.math.abs
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -23,7 +23,7 @@ class SlicedExtractStrategyUnitTest {
         val imageCount = 9
 
         runBlocking {
-            val pdfDoc = openPdfDocument(pdfFile.readBytes())
+            val pdfDoc = PdfBoxEngine().openDocument(pdfFile.readBytes())
             assertEquals(1, pdfDoc.pageCount)
 
             val page = pdfDoc.loadPage(0)

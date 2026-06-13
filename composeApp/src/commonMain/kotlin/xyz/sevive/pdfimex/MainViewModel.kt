@@ -8,16 +8,13 @@ import io.github.vinceglb.filekit.readBytes
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import xyz.sevive.pdfimex.core.ExtractStrategy
+import xyz.sevive.pdfimex.core.PdfCleanupProvider
+import xyz.sevive.pdfimex.core.PdfEngine
+import xyz.sevive.pdfimex.core.PdfSaver
 import xyz.sevive.pdfimex.core.SimpleExtractStrategy
 import xyz.sevive.pdfimex.core.SmoothingEtaEstimator
 import xyz.sevive.pdfimex.core.extractStrategyFactory
-import xyz.sevive.pdfimex.core.openPdfDocument
-import xyz.sevive.pdfimex.core.saveBitmap32ToGallery
 import kotlin.time.Duration
-
-expect fun cleanupResourceAfterPage()
-
-expect fun cleanupResourceAfterDocument()
 
 data class MainUiState(
     val selectedFile: PlatformFile? = null,
@@ -27,7 +24,11 @@ data class MainUiState(
     val eta: Duration? = null,
 )
 
-class MainViewModel : ViewModel() {
+class MainViewModel(
+    private val pdfEngine: PdfEngine,
+    private val pdfSaver: PdfSaver,
+    private val pdfCleanupProvider: PdfCleanupProvider,
+) : ViewModel() {
     companion object {
         const val LOG_TAG = "MainVM"
     }
@@ -59,7 +60,7 @@ class MainViewModel : ViewModel() {
 
         try {
             val pdfBytes = selectedFile.readBytes()
-            val pdfDoc = openPdfDocument(pdfBytes)
+            val pdfDoc = pdfEngine.openDocument(pdfBytes)
             val strategy = extractStrategyFactory(pdfDoc)
             _uiState.value = _uiState.value.copy(selectedExtractStrategy = strategy)
             pdfDoc.close()
@@ -78,19 +79,19 @@ class MainViewModel : ViewModel() {
 
         try {
             val pdfBytes = selectedFile.readBytes()
-            val pdfDoc = openPdfDocument(pdfBytes)
+            val pdfDoc = pdfEngine.openDocument(pdfBytes)
             val strategy = _uiState.value.selectedExtractStrategy
             val pageCount = pdfDoc.pageCount
 
             _uiState.value = _uiState.value.copy(progress = 0 to pageCount)
 
             for (pageNum in 0..<pageCount) {
-                cleanupResourceAfterPage()
+                pdfCleanupProvider.afterPage()
 
                 val page = pdfDoc.loadPage(pageNum)
 
                 val bitmap = strategy.extractPage(page)
-                saveBitmap32ToGallery(
+                pdfSaver.save(
                     bitmap,
                     filenameStem = "${selectedFile.nameWithoutExtension}-p${pageNum + 1}",
                 )
@@ -105,7 +106,7 @@ class MainViewModel : ViewModel() {
             }
 
             pdfDoc.close()
-            cleanupResourceAfterDocument()
+            pdfCleanupProvider.afterDocument()
         } catch (e: Exception) {
             logger.e(e) { "Error extracting pdf" }
         } finally {

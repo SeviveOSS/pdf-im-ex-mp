@@ -17,12 +17,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import org.koin.compose.viewmodel.koinViewModel
 import xyz.sevive.pdfimex.MainViewModel
 import xyz.sevive.pdfimex.ui.theme.PdfImExTheme
 
@@ -38,8 +38,7 @@ fun AppNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier,
 ) {
-    // TODO: proper viewmodel position?
-    val mainVM = viewModel { MainViewModel() }
+    val mainVM = koinViewModel<MainViewModel>()
 
     NavHost(
         navController = navController,

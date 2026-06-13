@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.licensee)
+    alias(libs.plugins.koin.compiler)
 }
 
 licensee {
@@ -76,6 +77,10 @@ kotlin {
             implementation(libs.filekit.dialogs)
             implementation(libs.filekit.dialogs.compose)
             implementation(libs.kermit)
+            api(project.dependencies.platform(libs.koin.bom))
+            api(libs.koin.core)
+            api(libs.koin.compose)
+            api(libs.koin.compose.viewmodel)
         }
 
         androidMain.dependencies {
@@ -84,6 +89,7 @@ kotlin {
             implementation(libs.androidx.core.ktx)
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.compose.ui.tooling)
+            implementation(libs.koin.android)
         }
 
         jvmMain.dependencies {
