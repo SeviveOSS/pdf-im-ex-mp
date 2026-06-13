@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:standard:filename")
+
 package xyz.sevive.pdfimex.core
 
 data class PdfRect(
