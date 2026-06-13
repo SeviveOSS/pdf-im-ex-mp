@@ -7,16 +7,12 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import io.github.vinceglb.filekit.FileKit
-import org.koin.core.context.startKoin
-import xyz.sevive.pdfimex.core.commonKoinModule
-import xyz.sevive.pdfimex.core.jvmKoinModule
+import xyz.sevive.pdfimex.core.di.initKoin
 import xyz.sevive.pdfimex.ui.App
 
 fun main() =
     application {
-        startKoin {
-            modules(commonKoinModule, jvmKoinModule)
-        }
+        initKoin()
 
         FileKit.init(appId = "xyz.sevive.pdfimex")
 

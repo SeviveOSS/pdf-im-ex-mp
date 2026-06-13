@@ -79,7 +79,6 @@ kotlin {
             implementation(libs.kermit)
             api(project.dependencies.platform(libs.koin.bom))
             api(libs.koin.core)
-            api(libs.koin.annotations)
             api(libs.koin.compose)
             api(libs.koin.compose.viewmodel)
         }
@@ -90,8 +89,9 @@ kotlin {
             implementation(libs.androidx.core.ktx)
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.compose.ui.tooling)
+            implementation(libs.androidx.work.runtime)
+            implementation(libs.androidx.work.runtime.ktx)
             implementation(libs.koin.android)
-            implementation(libs.koin.androidx.compose)
         }
 
         jvmMain.dependencies {
